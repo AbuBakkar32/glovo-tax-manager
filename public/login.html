@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Glovo Tax Manager</title>
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen flex items-center justify-center">
+
+    <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 shadow-xl w-full max-w-md">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold text-yellow-400 mb-2">
+                <i class="fa-solid fa-motorcycle mr-2"></i>Glovo Tax Manager
+            </h1>
+            <p class="text-xs text-gray-400">Please authenticate to access your financial dashboard</p>
+        </div>
+
+        <div id="error-msg" class="hidden bg-red-500/20 border border-red-500 text-red-200 text-xs p-3 rounded mb-4 font-semibold">
+            Invalid credentials!
+        </div>
+
+        <form id="login-form" class="space-y-4">
+            <div>
+                <label class="block text-xs text-gray-400 mb-1">Username</label>
+                <input type="text" id="username" required class="w-full bg-gray-700 border border-gray-600 rounded p-2.5 text-white focus:outline-none focus:border-yellow-400">
+            </div>
+            <div>
+                <label class="block text-xs text-gray-400 mb-1">Password</label>
+                <input type="password" id="password" required class="w-full bg-gray-700 border border-gray-600 rounded p-2.5 text-white focus:outline-none focus:border-yellow-400">
+            </div>
+            <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold p-3 rounded transition-all mt-2">
+                <i class="fa-solid fa-lock-open mr-1"></i> Login Securely
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error-msg');
+
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await response.json();
+            if (response.ok && data.success) {
+                window.location.href = '/index.html';
+            } else {
+                errorDiv.innerText = data.message || "Login failed!";
+                errorDiv.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

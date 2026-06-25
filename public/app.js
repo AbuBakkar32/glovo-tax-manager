@@ -5,6 +5,41 @@ const TAX_RATE = 0.05;
 
 let chartInstance = null;
 
+// Auth Guard: Redirect if not authenticated & display user name
+async function checkAuth() {
+    try {
+        const res = await fetch('/api/auth-check');
+        const status = await res.json();
+
+        if (!status.loggedIn) {
+            window.location.href = '/login.html';
+        } else {
+            // Set user name dynamically in the navbar
+            const nameSpan = document.getElementById('user-display-name');
+            if (nameSpan) {
+                // Captilizing first letter for better look
+                nameSpan.innerText = status.username ? status.username.toUpperCase() : 'ADMIN';
+            }
+        }
+    } catch (err) {
+        window.location.href = '/login.html';
+    }
+}
+checkAuth();
+
+// Dynamic Logout Action Trigger
+const logoutButton = document.getElementById('logout-btn');
+if (logoutButton) {
+    logoutButton.addEventListener('click', async () => {
+        if(confirm("Are you sure you want to logout?")) {
+            const res = await fetch('/api/logout', { method: 'POST' });
+            if (res.ok) {
+                window.location.href = '/login.html';
+            }
+        }
+    });
+}
+
 document.getElementById('invoice-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 

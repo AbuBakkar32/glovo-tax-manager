@@ -13,130 +13,147 @@
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
 
-    <!-- Navbar -->
-    <nav class="bg-gray-800 border-b border-gray-700 p-4 sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold text-yellow-400"><i class="fa-solid fa-motorcycle mr-2"></i>Glovo Tax Manager</h1>
-            <div class="flex items-center space-x-4">
-                <span class="text-sm text-gray-400">Ateco: <strong class="text-white">53.20.00 (67%)</strong></span>
-                <button class="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded text-sm font-semibold"><i class="fa-solid fa-right-from-bracket mr-1"></i> Logout</button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content Grid -->
-    <div class="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        <!-- Left Column: Stats & Add Invoice Form -->
-        <div class="lg:col-span-1 space-y-6">
-            <!-- Summary Card -->
-            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg">
-                <h2 class="text-lg font-semibold mb-4 text-gray-300">📊 Regime Forfettario Summary</h2>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-gray-700/50 p-3 rounded-lg">
-                        <p class="text-xs text-gray-400">Total Revenue</p>
-                        <p id="stat-revenue" class="text-xl font-bold text-emerald-400">€0.00</p>
-                    </div>
-                    <div class="bg-gray-700/50 p-3 rounded-lg">
-                        <p class="text-xs text-gray-400">Taxable Income</p>
-                        <p id="stat-taxable" class="text-xl font-bold text-blue-400">€0.00</p>
-                    </div>
-                    <div class="bg-gray-700/50 p-3 rounded-lg">
-                        <p class="text-xs text-gray-400">INPS (26.07%)</p>
-                        <p id="stat-inps" class="text-xl font-bold text-orange-400">€0.00</p>
-                    </div>
-                    <div class="bg-gray-700/50 p-3 rounded-lg">
-                        <p class="text-xs text-gray-400">Imposta Sostitutiva (5%)</p>
-                        <p id="stat-tax" class="text-xl font-bold text-red-400">€0.00</p>
-                    </div>
+<!-- Navbar -->
+<nav class="bg-gray-800 border-b border-gray-700 p-4 sticky top-0 z-50">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-xl font-bold text-yellow-400"><i class="fa-solid fa-motorcycle mr-2"></i>Glovo Tax Manager</h1>
+        <div class="flex items-center space-x-4">
+            <span class="text-sm text-gray-400">Ateco: <strong class="text-white">53.20.00 (67%)</strong></span>
+            <div class="flex items-center gap-4">
+                <div class="text-sm text-gray-300 bg-gray-800/60 px-3 py-1.5 rounded-lg border border-gray-700/50">
+                    <i class="fa-solid fa-user text-yellow-400 mr-1.5"></i>
+                    <span id="user-display-name" class="font-semibold text-white">Loading...</span>
                 </div>
-                <div class="mt-4 pt-4 border-t border-gray-700 flex justify-between items-center">
-                    <span class="text-sm text-gray-400">Net Remaining:</span>
-                    <span id="stat-net" class="text-xl font-black text-yellow-400">€0.00</span>
-                </div>
-            </div>
-
-            <!-- Add Invoice Form -->
-            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg">
-                <h2 class="text-lg font-semibold mb-4 text-gray-300"><i class="fa-solid fa-plus-circle text-yellow-400 mr-2"></i>Add Invoice / Earning</h2>
-                <form id="invoice-form" class="space-y-4">
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Month</label>
-                        <select id="month" class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-yellow-400 text-white">
-                            <option value="January">January</option>
-                            <option value="February">February</option>
-                            <option value="March">March</option>
-                            <option value="April">April</option>
-                            <option value="May">May</option>
-                            <option value="June">June</option>
-                            <option value="July">July</option>
-                            <option value="August">August</option>
-                            <option value="September">September</option>
-                            <option value="October">October</option>
-                            <option value="November">November</option>
-                            <option value="December">December</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1">Invoice Number</label>
-                        <input type="text" id="invoiceNum" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white">
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">Gross Revenue (€)</label>
-                            <input type="number" step="0.01" id="gross" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white">
-                        </div>
-                        <div>
-                            <label class="block text-xs text-gray-400 mb-1">Tips (€)</label>
-                            <input type="number" step="0.01" id="tips" value="0" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white">
-                        </div>
-                    </div>
-                    <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold p-2.5 rounded transition-all">
-                        Save to Excel Database
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Right Column: Charts & Data Table -->
-        <div class="lg:col-span-2 space-y-6">
-            <!-- Charts Section -->
-            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg">
-                <h2 class="text-lg font-semibold mb-4 text-gray-300">📈 Financial Overview</h2>
-                <div class="h-64">
-                    <canvas id="revenueChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Data Table -->
-            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg overflow-x-auto">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-semibold text-gray-300">📄 Recent Invoices (Syncing with Excel)</h2>
-                    <button onclick="window.print()" class="text-sm bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded text-gray-200">
-                        <i class="fa-solid fa-print mr-1"></i> Print Report
-                    </button>
-                </div>
-                <table class="w-full text-left text-sm border-collapse">
-                    <thead>
-                        <tr class="border-b border-gray-700 text-gray-400">
-                            <th class="pb-2">Invoice #</th>
-                            <th class="pb-2">Month</th>
-                            <th class="pb-2 text-right">Gross (€)</th>
-                            <th class="pb-2 text-right">Taxable (€)</th>
-                            <th class="pb-2 text-right">INPS (€)</th>
-                            <th class="pb-2 text-right">Tax (5%)</th>
-                            <th class="pb-2 text-right">Total Payable (€)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="invoice-table-body" class="divide-y divide-gray-700/50">
-                        <!-- Dynamic content loaded via JS -->
-                    </tbody>
-                </table>
+                <button id="logout-btn"
+                        class="bg-red-500 hover:bg-red-600 text-white font-bold px-4 py-2 rounded-lg text-sm flex items-center gap-1.5 transition-all shadow-md">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
             </div>
         </div>
 
     </div>
+</nav>
 
-    <script src="app.js"></script>
+<!-- Main Content Grid -->
+<div class="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Left Column: Stats & Add Invoice Form -->
+    <div class="lg:col-span-1 space-y-6">
+        <!-- Summary Card -->
+        <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg">
+            <h2 class="text-lg font-semibold mb-4 text-gray-300">📊 Regime Forfettario Summary</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-700/50 p-3 rounded-lg">
+                    <p class="text-xs text-gray-400">Total Revenue</p>
+                    <p id="stat-revenue" class="text-xl font-bold text-emerald-400">€0.00</p>
+                </div>
+                <div class="bg-gray-700/50 p-3 rounded-lg">
+                    <p class="text-xs text-gray-400">Taxable Income</p>
+                    <p id="stat-taxable" class="text-xl font-bold text-blue-400">€0.00</p>
+                </div>
+                <div class="bg-gray-700/50 p-3 rounded-lg">
+                    <p class="text-xs text-gray-400">INPS (26.07%)</p>
+                    <p id="stat-inps" class="text-xl font-bold text-orange-400">€0.00</p>
+                </div>
+                <div class="bg-gray-700/50 p-3 rounded-lg">
+                    <p class="text-xs text-gray-400">Imposta Sostitutiva (5%)</p>
+                    <p id="stat-tax" class="text-xl font-bold text-red-400">€0.00</p>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-700 flex justify-between items-center">
+                <span class="text-sm text-gray-400">Net Remaining:</span>
+                <span id="stat-net" class="text-xl font-black text-yellow-400">€0.00</span>
+            </div>
+        </div>
+
+        <!-- Add Invoice Form -->
+        <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg">
+            <h2 class="text-lg font-semibold mb-4 text-gray-300"><i
+                    class="fa-solid fa-plus-circle text-yellow-400 mr-2"></i>Add Invoice / Earning</h2>
+            <form id="invoice-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Month</label>
+                    <select id="month"
+                            class="w-full bg-gray-700 border border-gray-600 rounded p-2 focus:outline-none focus:border-yellow-400 text-white">
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Invoice Number</label>
+                    <input type="text" id="invoiceNum" required
+                           class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Gross Revenue (€)</label>
+                        <input type="number" step="0.01" id="gross" required
+                               class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Tips (€)</label>
+                        <input type="number" step="0.01" id="tips" value="0"
+                               class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white">
+                    </div>
+                </div>
+                <button type="submit"
+                        class="w-full bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold p-2.5 rounded transition-all">
+                    Save to Excel Database
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Right Column: Charts & Data Table -->
+    <div class="lg:col-span-2 space-y-6">
+        <!-- Charts Section -->
+        <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg">
+            <h2 class="text-lg font-semibold mb-4 text-gray-300">📈 Financial Overview</h2>
+            <div class="h-64">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-lg overflow-x-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-gray-300">📄 Recent Invoices (Syncing with Excel)</h2>
+                <button onclick="window.print()"
+                        class="text-sm bg-gray-700 hover:bg-gray-600 px-3 py-1.5 rounded text-gray-200">
+                    <i class="fa-solid fa-print mr-1"></i> Print Report
+                </button>
+            </div>
+            <table class="w-full text-left text-sm border-collapse">
+                <thead>
+                <tr class="border-b border-gray-700 text-gray-400">
+                    <th class="pb-2">Invoice #</th>
+                    <th class="pb-2">Month</th>
+                    <th class="pb-2 text-right">Gross (€)</th>
+                    <th class="pb-2 text-right">Taxable (€)</th>
+                    <th class="pb-2 text-right">INPS (€)</th>
+                    <th class="pb-2 text-right">Tax (5%)</th>
+                    <th class="pb-2 text-right">Total Payable (€)</th>
+                </tr>
+                </thead>
+                <tbody id="invoice-table-body" class="divide-y divide-gray-700/50">
+                <!-- Dynamic content loaded via JS -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
