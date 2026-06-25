@@ -1,0 +1,15 @@
+# Dependency directories
+node_modules/
+
+# Local databases/files you might want to keep private or local
+database.json
+data.xlsx
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Operating system files
+.DS_Store
+Thumbs.db

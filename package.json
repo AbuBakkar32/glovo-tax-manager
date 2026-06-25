@@ -1,0 +1,13 @@
+{
+  "name": "glovo-tax-manager",
+  "version": "1.0.0",
+  "description": "Glovo Rider - Regime Forfettario Tax Manager",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "express": "^4.22.2"
+  }
+}
