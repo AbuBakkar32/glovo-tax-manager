@@ -10,6 +10,47 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @media print {
+            /* 1. Hide every container in the body by default */
+            body * {
+                visibility: hidden;
+            }
+
+            /* 2. Target the specific invoice table container and its child elements to be visible */
+            /* Assuming your table section card has a container, let's target the card containing 'Recent Invoices' */
+            .bg-gray-800\/40,
+            div:has(> #invoice-table-body),
+            table, table * {
+                visibility: visible;
+            }
+
+            /* 3. Force absolute positioning to print the table from the top-left corner of the A4 page */
+            table {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                color: #000000 !important; /* Force black text for clean physical ink printing */
+                background-color: #ffffff !important;
+                border-collapse: collapse;
+            }
+
+            /* 4. Hide interactive dashboard elements inside the table block like 'Print Report' button during printing */
+            #logout-btn, button, #invoice-form, .fa-solid {
+                display: none !important;
+            }
+
+            /* 5. Adjust table border styles for paper readability */
+            tr {
+                border-bottom: 1px solid #000000 !important;
+            }
+            th, td {
+                color: #000000 !important;
+                padding: 8px !important;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
 
